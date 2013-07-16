@@ -64,7 +64,7 @@ compress (x:xs)
 -- If a list contains repeated elements they should be placed in separate sublists
 pack :: (Eq a) => [a] -> [[a]]
 
-pack [] 	= [[]]
+pack [] 	= []
 pack [a]	= [[a]]
 pack xs		= packHelper [[]] xs
 
@@ -86,6 +86,6 @@ encode xs = encodeHelper (pack xs)
 
 encodeHelper :: [[a]] -> [(Int, a)]
 
-encodeHelper [[]] 		= []
+encodeHelper [] 		= []
 encodeHelper [x]		= [(length x, head x)]
 encodeHelper (x:xs)		= (length x, head x):encodeHelper xs
