@@ -38,12 +38,9 @@ myReverse (x:xs) 	= (last xs) : (myReverse(init xs) ++ x:[])
 -- Find out whether a list is a palindrome.
 isPalindrome :: (Eq a) => [a] -> Bool
 isPalindrome xs
-	| len <= 1 	= True
-	| otherwise	= (head xs) == (last xs) && isPalindrome (belly xs)
-	where len = length xs
-
-belly :: [a] -> [a]
-belly ls = tail (init ls)
+	| length xs <= 1 	= True
+	| otherwise				= (head xs) == (last xs) && isPalindrome (belly xs)
+	where belly ls = tail (init ls)
 
 -- Problem 7
 -- Flatten a nested list structure
@@ -65,7 +62,7 @@ compress (x:xs)
 pack :: (Eq a) => [a] -> [[a]]
 
 pack [] 	= []
-pack [a] 	= [a]
+pack [a] 	= [[a]]
 pack xs		= reps : pack rest 
 	where (reps, rest) = span (== head xs) xs
 
@@ -90,4 +87,28 @@ encodeHelper :: [[a]] -> [(Int, a)]
 encodeHelper [] 			= []
 encodeHelper [x]			= [(length x, head x)]
 encodeHelper (x:xs)		= (length x, head x):encodeHelper xs
+
+
+
+-- Problem 14
+-- Duplicate the elements of a list.
+dupli :: [a] -> [a]
+dupli [] = []
+dupli [x] = [x,x]
+dupli (x:xs) = [x,x] ++ dupli xs
+
+
+-- Problem 15
+-- Replicate the elements of a list a given number of times.
+-- My solution
+repli :: [a] -> Int -> [a]
+repli [] _ = []
+repli _ 0 = []
+repli _ n
+	| n < 0 = error "Can't replicate negative times"
+repli (x:xs) n = dups ++ repli xs n 
+	where dups = take n (repeat x)
+
+-- Wow so much better sol'n:
+repli xs n = concatMap (replicate n) xs			-- applies the first arg to each elt of second arg, concatenates results
 
