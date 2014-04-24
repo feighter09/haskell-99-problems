@@ -125,10 +125,10 @@ dropEvery xs x
 split :: [a] -> Int -> ([a], [a])
 split [] _ = ([], [])
 split (x:xs) n 
-	| n < 0 = error "Can't split on a negative index"
-	| n == 0 = ([], x:xs)
+	| n < 0					= error "Can't split on a negative index"
+	| n == 0 				= ([], x:xs)
 	| n > length xs = (x:xs, [])
-	| otherwise 	 = (x:(fst res), snd res)
+	| otherwise 	 	= (x:(fst res), snd res)
 	where res = split xs (n - 1)
 
 
@@ -147,8 +147,8 @@ rotate :: [a] -> Int -> [a]
 rotate [] _ = []
 --rotate xs 0 = xs
 rotate xs n
-	| n > 0		= rotate (middle ++ last:[first]) (n - 1)
-	| n < 0		= rotate (last:first:middle) (n + 1)
+	| n > 0			= rotate (middle ++ last:[first]) (n - 1)
+	| n < 0			= rotate (last:first:middle) (n + 1)
 	| otherwise	= xs
 	where 
 		first 	= xs !! 0
@@ -156,7 +156,14 @@ rotate xs n
 		last		= xs !! (length xs - 1)
 
 
-
+-- Problem 20
+--(*) Remove the K'th element from a list.
+removeAt :: [a] -> Int -> [a]
+removeAt xs n
+	| n < 0					= error "Trying to remove an element out of range"
+	| n > length xs	= error "Trying to remove an element out of range"
+	| otherwise 		= (init front) ++ back
+	where (front, back) = split xs n
 
 
 
