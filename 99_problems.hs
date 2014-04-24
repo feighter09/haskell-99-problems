@@ -101,16 +101,16 @@ dupli (x:xs) = [x,x] ++ dupli xs
 --(**) Replicate the elements of a list a given number of times.
 repli :: [a] -> Int -> [a]
 repli [] _ = []
-repli _ 0 = []
 repli _ n
-	| n < 0 = error "Can't replicate negative times"
+	| n < 0		= error "Can't replicate negative times"
+	| n == 0	= []
 repli (x:xs) n = dups ++ repli xs n 
 	where dups = take n (repeat x)
 -- Wow so much better sol'n:
-repli xs n = concatMap (replicate n) xs			-- applies the first arg to each elt of second arg, concatenates results (i guess)
+--repli xs n = concatMap (replicate n) xs			-- applies the first arg to each elt of second arg, concatenates results (i guess)
 
 
--- Problem 15
+-- Problem 16
 --(**) Drop every N'th element from a list
 dropEvery :: [a] -> Int -> [a]
 dropEvery [] _ = []
@@ -130,3 +130,15 @@ split (x:xs) n
 	| n > length xs = (x:xs, [])
 	| otherwise 	 = (x:(fst res), snd res)
 	where res = split xs (n - 1)
+
+
+-- Problem 18
+--(**) Extract a slice from a list.
+slice :: [a] -> Int -> Int -> [a]
+slice [] _ _ = []
+slice xs x y
+	| x <= 0		= slice xs 1 y
+	| otherwise	= snd (split (fst (split xs y)) (x - 1))
+
+
+
