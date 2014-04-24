@@ -42,7 +42,7 @@ isPalindrome xs
 	| otherwise				= (head xs) == (last xs) && isPalindrome (belly xs)
 	where belly ls = tail (init ls)
 
--- Problem 7
+-- ************************************************** Problem 7 **************************************************
 --(**) Flatten a nested list structure
 data NestedList a = Elem a | List [NestedList a]
 -- **************************************************
@@ -139,6 +139,24 @@ slice [] _ _ = []
 slice xs x y
 	| x <= 0		= slice xs 1 y
 	| otherwise	= snd (split (fst (split xs y)) (x - 1))
+
+
+-- Problem 19
+--(**) Rotate a list N places to the left.
+rotate :: [a] -> Int -> [a]
+rotate [] _ = []
+--rotate xs 0 = xs
+rotate xs n
+	| n > 0		= rotate (middle ++ last:[first]) (n - 1)
+	| n < 0		= rotate (last:first:middle) (n + 1)
+	| otherwise	= xs
+	where 
+		first 	= xs !! 0
+		middle	= tail (init xs)
+		last		= xs !! (length xs - 1)
+
+
+
 
 
 
