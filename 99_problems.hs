@@ -89,7 +89,6 @@ encodeHelper [x]			= [(length x, head x)]
 encodeHelper (x:xs)		= (length x, head x):encodeHelper xs
 
 
-
 -- Problem 14
 --(*) Duplicate the elements of a list.
 dupli :: [a] -> [a]
@@ -100,7 +99,6 @@ dupli (x:xs) = [x,x] ++ dupli xs
 
 -- Problem 15
 --(**) Replicate the elements of a list a given number of times.
--- My solution
 repli :: [a] -> Int -> [a]
 repli [] _ = []
 repli _ 0 = []
@@ -110,6 +108,16 @@ repli (x:xs) n = dups ++ repli xs n
 	where dups = take n (repeat x)
 -- Wow so much better sol'n:
 repli xs n = concatMap (replicate n) xs			-- applies the first arg to each elt of second arg, concatenates results (i guess)
+
+
+-- Problem 15
+--(**) Drop every N'th element from a list
+dropEvery :: [a] -> Int -> [a]
+dropEvery [] _ = []
+dropEvery xs x
+	| (length xs) < x = xs
+	| otherwise				= init front ++ dropEvery back x
+	where (front, back) = split xs x
 
 
 -- Problem 17
