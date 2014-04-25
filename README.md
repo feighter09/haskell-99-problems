@@ -2,8 +2,8 @@ haskell-99-problems
 ===================
 
 My humble attempt at learning haskell through the famous 99 questions.
-So far: 1-6,8-10,14,15,17
+So far: 1-6,8-10,14-20
 
-Please, try to break it. Let me know if you're successful. You'll get my kudos.
+Please, try to break it. Let me know if you're successful.
 
 -Hephaestus_t
