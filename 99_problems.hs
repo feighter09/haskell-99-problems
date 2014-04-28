@@ -1,3 +1,5 @@
+import System.Random
+
 -- Problem 1
 --(*) Find the last element of a list.
 myLast :: [a] -> a
@@ -127,13 +129,13 @@ dropEvery [] _ = []
 dropEvery xs x
 	| (length xs) < x = xs
 	| otherwise				= init front ++ dropEvery back x
-	where (front, back) = split xs x
+	where (front, back) = mySplit xs x
 
 
 -- Problem 17
 --(*) Split a list into two parts; the length of the first part is given.
-split :: [a] -> Int -> ([a], [a])
-split xs n = (take n xs, drop n xs)
+mySplit :: [a] -> Int -> ([a], [a])
+mySplit xs n = (take n xs, drop n xs)
 
 
 -- Problem 18
@@ -142,7 +144,7 @@ slice :: [a] -> Int -> Int -> [a]
 slice [] _ _ = []
 slice xs x y
 	| x <= 0		= slice xs 1 y
-	| otherwise	= snd (split (fst (split xs y)) (x - 1))
+	| otherwise	= snd (mySplit (fst (mySplit xs y)) (x - 1))
 
 
 -- Problem 19
@@ -167,7 +169,7 @@ removeAt xs n
 	| n < 0					= error "Trying to remove an element out of range"
 	| n > length xs	= error "Trying to remove an element out of range"
 	| otherwise 		= (init front) ++ back
-	where (front, back) = split xs n
+	where (front, back) = mySplit xs n
 
 
 -- Problem 21
@@ -177,7 +179,7 @@ insertAt elt list spot
 	| spot < 1						= error "Trying to insert an element out of range"
 	|	spot >= length list	= error "Trying to insert an element out of range"
 	| otherwise						= front ++ [elt] ++ back
-	where (front, back) = split list (spot - 1)
+	where (front, back) = mySplit list (spot - 1)
 
 
 -- Problem 22
@@ -185,17 +187,25 @@ insertAt elt list spot
 range :: Int -> Int -> [Int]
 range first last
 	| first < last	= first:(range (first + 1) last)
+	| first == last	= [first]
 	| first > last	= first:(range (first - 1) last)
-	| otherwise 		= [first]
 
 
 -- Problem 23
 -- Extract a given number of randomly selected elements from a list.
-rnd_select :: [a] -> Int -> IO [a]
-rnd_select [] _ = return []
+
+-- Haskell + randoms #'s are not cool.;
+
+--rnd_select :: [a] -> IO Int -> IO [a]
+--rnd_select [] _ = return []
+--rnd_select _ 0 = return []
+--rnd_select xs n = xs !! (getStdRandom (randomR (0, length xs))):rnd_select xs (n - 1)
 
 
-
+-- Problem 26
+-- (**) Generate the combinations of K distinct objects chosen from the N elements of a list
+myCombinations :: Int -> [a] -> [[a]]
+myCombinations n xs = let len = length xs in [ [xs !! a, xs !! b, xs !! c] | a <- [0..len], b <- [1..len], c <- [2..len]
 
 
 
